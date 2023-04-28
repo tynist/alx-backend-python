@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""type-annotated function concat that takes a string str1 and a string str2"""
+"""Function concat two strings and concatenated it"""
 
 
 def concat(str1: str, str2: str) -> str:
-    """ concatenated two string"""
+    """Concatenates two strings"""
     return str1 + str2
