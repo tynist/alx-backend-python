@@ -7,7 +7,7 @@ from typing import List
 wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_n(n: intega, max_delay: intega) -> List[float]:
+async def wait_n(n: int, max_delay: int) -> List[float]:
     """
     takes two integer arguments and returns a list of float values
     """
