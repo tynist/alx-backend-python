@@ -4,8 +4,6 @@
 PythonBack-end
 -   By Emmanuel Turlay, Staff Software Engineer at Cruise
 
-![](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2019/12/ee85b9f67c384e29525b.png)
-
 
 Resources
 ---------
