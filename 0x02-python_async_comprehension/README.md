@@ -4,9 +4,7 @@
 PythonBack-end
 -   By Emmanuel Turlay, Staff Software Engineer at Cruise
 
-<p>
-    <img src="https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2019/12/ee85b9f67c384e29525b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20230503%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20230503T152337Z&amp;X-Amz-Expires=86400&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=0bf4707aa63545075b19c09e27bf9f021979bd25c57c016175be98c453b65669" alt="" loading="lazy" style="">
-</p>
+![](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2019/12/ee85b9f67c384e29525b.png)
 
 
 Resources
