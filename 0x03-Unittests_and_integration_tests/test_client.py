@@ -8,68 +8,94 @@ from urllib import response
 from client import GithubOrgClient
 from parameterized import parameterized, parameterized_class
 from unittest.mock import Mock, PropertyMock, patch
+from fixtures import TEST_PAYLOAD
 
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test class for GithubOrgClient"""
+
     @parameterized.expand([
-        ("google"),
-        ("abc"),
+        ('google'),
+        ('abc')
     ])
-    @patch("client.get_json")
-    def test_org(self, url, payload, get_patch):
+    @patch('client.get_json')
+    def test_org(self, data, mock):
         """
-        Test that GithubOrgClient.org returns the correct value.
+        Test the org method of GithubOrgClient.
         """
-        get_patch.return_value = payload
-        github_client = GithubOrgClient(url)
-        response = github_client.org
-        self.assertEqual(response, payload)
-        get_patch.assert_called_once()
+        endpoint = 'https://api.github.com/orgs/{}'.format(data)
+        spec = GithubOrgClient(data)
+        spec.org()
+        mock.assert_called_once_with(endpoint)
 
-    def test_public_repos_url(self):
+    @parameterized.expand([
+        ('random_url', {'repos_url': 'http://some_url.com'})
+    ])
+    def test_public_repos_url(self, name, result):
         """
-        Test that the result of public_repos_url is the
-        expected one based on the mocked payload.
+        Test the _public_repos_url property of GithubOrgClient.
         """
-        with patch.object(GithubOrgClient,
-                          "org",
-                          new_callable=PropertyMock) as mock_o:
-            test_json = {"url": "facebook",
-                         "repos_url": "http://taylorswift.com"}
-            mock_o.return_value = test_json
-            github_client = GithubOrgClient(test_json.get("url"))
-            response = github_client._public_repos_url
-            mock_o.assert_called_once()
-            self.assertEqual(response, test_json.get("repos_url"))
+        with patch('client.GithubOrgClient.org',
+                   PropertyMock(return_value=result)):
+            response = GithubOrgClient(name)._public_repos_url
+            self.assertEqual(response, result.get('repos_url'))
 
-    @patch("client.get_json")
-    def test_public_repos(self, get_patch):
+    @patch('client.get_json')
+    def test_public_repos(self, mocked_method):
         """
-        Test that the list of repos is what you expect from the chosen payload.
+        Test the public_repos method of GithubOrgClient.
         """
-        get_patch.return_value = [{"name": "google"},
-                                  {"name": "abc"}]
-        with patch.object(GithubOrgClient, "_public_repos_url",
-                          new_callable=PropertyMock) as mock_o:
-            mock_o.return_value = "http://taylorswift.com"
-            github_client = GithubOrgClient("facebook")
-            response = github_client.public_repos()
-            self.assertEqual(response, ["google", "abc"])
-            get_patch.assert_called_once()
-            mock_o.assert_called_once()
+        payload = [{"name": "Google"}, {"name": "TT"}]
+        mocked_method.return_value = payload
+
+        with patch('client.GithubOrgClient._public_repos_url',
+                   new_callable=PropertyMock) as mocked_public:
+
+            mocked_public.return_value = "world"
+            response = GithubOrgClient('test').public_repos()
+
+            self.assertEqual(response, ["Google", "TT"])
+
+            mocked_public.assert_called_once()
+            mocked_method.assert_called_once()
 
     @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False)
     ])
-    def test_has_license(self, repo, license, expected):
+    def test_has_license(self, repo, key, expectation):
         """
-        Test for GithubOrgClient.has_license method.
+        Test the has_license static method of GithubOrgClient.
         """
-        github_client = GithubOrgClient("facebook")
-        response = (github_client.has_license(repo, license))
-        self.assertEqual(response, expected)
+        result = GithubOrgClient.has_license(repo, key)
+        self.assertEqual(result, expectation)
+
+
+@parameterized_class(['org_payload', 'repos_payload',
+                      'expected_repos', 'apache2_repos'], TEST_PAYLOAD)
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """Test class for integration testing of GithubOrgClient"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.get_patcher = patch('requests.get', side_effect=[
+            cls.org_payload, cls.repos_payload
+        ])
+        cls.mocked_get = cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """
+        Test the public_repos method of GithubOrgClient with integration testing.
+        """
+
+    def test_public_repos_with_license(self):
+        """
+        Test the public_repos_with_license method of GithubOrgClient with integration testing.
+        """
 
 
 if __name__ == '__main__':
