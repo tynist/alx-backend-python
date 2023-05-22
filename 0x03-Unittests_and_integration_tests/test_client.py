@@ -4,8 +4,9 @@ Test Client
 """
 import unittest
 from unittest import mock
+from urllib import response
 from client import GithubOrgClient
-from parameterized import parameterized
+from parameterized import parameterized, parameterized_class
 from unittest.mock import Mock, PropertyMock, patch
 
 
