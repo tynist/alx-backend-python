@@ -89,12 +89,14 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
     def test_public_repos(self):
         """
-        Test the public_repos method of GithubOrgClient with integration testing.
+        Test the public_repos method of GithubOrgClient
+        with integration testing.
         """
 
     def test_public_repos_with_license(self):
         """
-        Test the public_repos_with_license method of GithubOrgClient with integration testing.
+        Test the public_repos_with_license method of
+        GithubOrgClient with integration testing.
         """
 
 
