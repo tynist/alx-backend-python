@@ -28,7 +28,8 @@ class TestAccessNestedMap(unittest.TestCase):
     ])
     def test_access_nested_map_exception(self, nested_map, path):
         """
-        Test that a KeyError is raised when accessing a non-existent key in a nested map.
+        Test that a KeyError is raised when accessing
+        a non-existent key in a nested map.
         """
         with self.assertRaises(KeyError):
             access_nested_map(nested_map, path)
@@ -43,7 +44,8 @@ class TestGetJson(unittest.TestCase):
     ])
     def test_get_json(self, url, payload):
         """
-        Test the get_json function by mocking the requests.get method and its response.
+        Test the get_json function by mocking the
+        requests.get method and its response.
         """
         class Mocked(Mock):
             """Mock class that inherits from Mock"""
